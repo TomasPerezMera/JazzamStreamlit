@@ -3,7 +3,7 @@ import os
 import streamlit as st
 import google.generativeai as genai
 from dotenv import load_dotenv
-from PIL import Image  # Import Pillow for image handling
+from PIL import Image
 
 # Cargar variables de entorno desde un archivo .env
 load_dotenv()
@@ -18,15 +18,31 @@ else:
     genai.configure(api_key=API_KEY)
     model = genai.GenerativeModel("gemini-pro")
 
-    # Crear dos columnas: la izquierda ocupará 3/4 y la derecha 1/4 de la pantalla
+    # Inyectar estilos CSS para centrar el título y la imagen verticalmente
+    st.markdown(
+        """
+        <style>
+        .center-title {
+            text-align: center;
+        }
+        .vertical-center {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+        }
+        </style>
+        """, unsafe_allow_html=True)
+
+    # Crear dos columnas: 3/4 a la izquierda y 1/4 a la derecha
     col1, col2 = st.columns([3, 1])
 
     with col1:
-        # Título e introducción de la app
-        st.title("Jazzam - Asistente Musical Virtual")
+        # Título centrado y descripción de la app
+        st.markdown("<h1 class='center-title'>Jazzam - Asistente Musical Virtual</h1>", unsafe_allow_html=True)
         st.write(
             """
-            ¡Hola! Soy **Jazzam**, tu asistente musical virtual. Estoy acá para ayudarte a elegir tu próximo álbum favorito de John Coltrane. 
+            ¡Hola! Soy **Jazzam**, tu asistente musical virtual. Estoy acá para ayudarte a elegir tu próximo álbum favorito de John Coltrane.
             Ingresá tus artistas o álbumes favoritos y recibirás una recomendación personalizada.
             """
         )
@@ -61,25 +77,21 @@ else:
                 "Quiero que le des al usuario la bienvenida en una oración corta, y procedas directamente a la respuesta, separada en otro párrafo. "
             )
 
-            # Combinar el contexto y el prompt del usuario para formar el prompt completo
+            # Combinar el contexto y el prompt del usuario
             full_prompt = f"{context_prompt}\n\nUsuario: {user_prompt}\n\nJazzam:"
-
             # Llamar a la API de Gemini para generar la respuesta
             response = model.generate_content(full_prompt)
             return response.text.strip()
 
         # Procesar el formulario y mostrar la recomendación
         if submit_button:
-            # Validar que se haya ingresado al menos un artista o álbum
             if not artist1.strip():
                 st.error("Necesito al menos un artista o álbum para recomendarte algo. Por favor, ingresá al menos uno.")
             else:
-                # Preparar la lista de artistas
                 artists = [artist1.strip()]
                 if artist2.strip():
                     artists.append(artist2.strip())
 
-                # Mostrar un spinner mientras se genera la recomendación
                 with st.spinner("Generando recomendación..."):
                     recommendation = generar_recomendacion(artists)
 
@@ -88,12 +100,9 @@ else:
                 st.success("¡Gracias por utilizar Jazzam! Si querés otra recomendación, modificá tus elecciones y presioná el botón nuevamente.")
 
     with col2:
-        # Cargar y redimensionar la imagen
+        # Contenedor para centrar la imagen verticalmente
+        st.markdown('<div class="vertical-center">', unsafe_allow_html=True)
         image = Image.open("coltrane.jpg")
-        # Redimensionar la imagen a un ancho adecuado para la columna (por ejemplo, 300px)
-        # Manteniendo la relación de aspecto original
-        desired_width = 300
-        original_width, original_height = image.size
-        desired_height = int((desired_width / original_width) * original_height)
-        image = image.resize((desired_width, desired_height))
-        st.image(image, caption="John Coltrane", use_column_width=True)
+        # Mostrar la imagen en su resolución original y permitir que se downscale al ancho del contenedor
+        st.image(image, caption="John Coltrane", use_container_width=True)
+        st.markdown('</div>', unsafe_allow_html=True)
