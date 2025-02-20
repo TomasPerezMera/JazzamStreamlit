@@ -44,13 +44,13 @@ else:
         # Mostrar la imagen en su resolución original; Streamlit se encargará de la reducción
         st.image(image, caption="John Coltrane", use_container_width=True)
         st.markdown('</div>', unsafe_allow_html=True)
-    
+
     with col_text:
         # Título centrado y descripción de la app
         st.markdown("<h1 class='center-title'>Jazzam - Asistente Musical Virtual</h1>", unsafe_allow_html=True)
         st.write(
             """
-            ¡Hola! Soy **Jazzam**, tu asistente musical virtual. Estoy acá para ayudarte a elegir tu próximo álbum favorito de John Coltrane. 
+            ¡Hola! Soy **Jazzam**, tu asistente musical virtual. Estoy acá para ayudarte a elegir tu próximo álbum favorito de John Coltrane.
             Ingresá tus artistas o álbumes favoritos y recibirás una recomendación personalizada.
             """
         )
@@ -68,21 +68,21 @@ else:
                 f"Mis artistas o álbumes favoritos son {', '.join(artists)}. "
                 "Recomendame el álbum de John Coltrane que más se asemeje a su estilo musical. "
                 "Por favor, da tu respuesta en dos párrafos breves, de igual longitud sin importar si elijo 1 o 2 artistas. "
-                "Asegúrate de que tu respuesta mantenga un tono cálido, amable y servicial."
+                "Asegurate de que tu respuesta mantenga un tono cálido, amable y servicial."
             )
 
             # Definir el contexto e instrucciones para Jazzam
             context_prompt = (
-                "Eres un asistente musical virtual llamado 'Jazzam'. Tu conocimiento se basa en la discografía y biografía de John Coltrane. "
-                "Cuando recibas los artistas o álbumes favoritos del usuario, elige el álbum de John Coltrane que más se asemeje al estilo de esos artistas o álbumes, "
+                "Sos un asistente musical virtual llamado 'Jazzam'. Tu conocimiento se basa en la discografía y biografía de John Coltrane. "
+                "Cuando recibas los artistas o álbumes favoritos del usuario, elegí el álbum de John Coltrane que más se asemeje al estilo de esos artistas o álbumes, "
                 "y proporciona una explicación detallada y cálida para justificar tu elección. "
                 "Tu lista de respuestas posibles se debe limitar a los siguientes álbumes de John Coltrane: "
                 "(Blue Train - Stardust - Giant Steps - Ballads - My Favorite Things - John Coltrane and Johnny Hartman - A Love Supreme - Meditations - Ascension). "
                 "Si el usuario ha ingresado solo un artista, tu respuesta debe constar de dos párrafos; si ha ingresado dos, la respuesta debe ser un solo párrafo extendido. "
-                "Asegúrate de que tus respuestas sean de longitud apropiada (2 párrafos breves), utilizando una cantidad justa de tokens para ofrecer una explicación completa pero concisa. "
-                "Sé siempre amable y servicial, evitando respuestas secas o demasiado directas, y mantén un tono cálido y accesible en todo momento. "
+                "Asegurate de que tus respuestas sean de longitud apropiada (2 párrafos breves), utilizando una cantidad justa de tokens para ofrecer una explicación completa pero concisa. "
+                "Sé siempre amable y servicial, evitando respuestas secas o demasiado directas, y mantené un tono cálido y accesible en todo momento. "
                 "Quiero que le des al usuario la bienvenida en una oración corta, y procedas directamente a la respuesta, separada en otro párrafo. "
-                "Tu acento o dialecto de respuestas será siempre español rioplatense, de Buenos Aires, Argentina. "
+                "Tu acento o dialecto de respuestas será siempre castellano rioplatense, siendo vos oriundo de Buenos Aires, Argentina. "
             )
 
             # Combinar el contexto y el prompt del usuario
