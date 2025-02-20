@@ -17,7 +17,7 @@ else:
     genai.api_key = API_KEY
     genai.configure(api_key=API_KEY)
     model = genai.GenerativeModel("gemini-pro")
-
+    
     # Inyectar estilos CSS para centrar el título y la imagen verticalmente
     st.markdown(
         """
@@ -33,16 +33,16 @@ else:
         }
         </style>
         """, unsafe_allow_html=True)
-
+    
     # Crear dos columnas: 3/4 a la izquierda y 1/4 a la derecha
     col1, col2 = st.columns([3, 1])
-
+    
     with col1:
         # Título centrado y descripción de la app
         st.markdown("<h1 class='center-title'>Jazzam - Asistente Musical Virtual</h1>", unsafe_allow_html=True)
         st.write(
             """
-            ¡Hola! Soy **Jazzam**, tu asistente musical virtual. Estoy acá para ayudarte a elegir tu próximo álbum favorito de John Coltrane.
+            ¡Hola! Soy **Jazzam**, tu asistente musical virtual. Estoy acá para ayudarte a elegir tu próximo álbum favorito de John Coltrane. 
             Ingresá tus artistas o álbumes favoritos y recibirás una recomendación personalizada.
             """
         )
@@ -103,6 +103,6 @@ else:
         # Contenedor para centrar la imagen verticalmente
         st.markdown('<div class="vertical-center">', unsafe_allow_html=True)
         image = Image.open("coltrane.jpg")
-        # Mostrar la imagen en su resolución original y permitir que se downscale al ancho del contenedor
-        st.image(image, caption="John Coltrane", use_container_width=True)
+        # Mostrar la imagen en su resolución original y forzar un ancho de 336px (doble del tamaño anterior)
+        st.image(image, caption="John Coltrane", width=336)
         st.markdown('</div>', unsafe_allow_html=True)
