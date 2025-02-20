@@ -34,10 +34,18 @@ else:
         </style>
         """, unsafe_allow_html=True)
     
-    # Crear dos columnas: 3/4 a la izquierda y 1/4 a la derecha
-    col1, col2 = st.columns([3, 1])
+    # Crear dos columnas: 1/4 a la izquierda (imagen) y 3/4 a la derecha (texto y formulario)
+    col_img, col_text = st.columns([1, 3])
     
-    with col1:
+    with col_img:
+        # Contenedor para centrar la imagen verticalmente
+        st.markdown('<div class="vertical-center">', unsafe_allow_html=True)
+        image = Image.open("coltrane.jpg")  # New image: 1138x924 px
+        # Mostrar la imagen en su resolución original; Streamlit se encargará de la reducción
+        st.image(image, caption="John Coltrane", use_container_width=True)
+        st.markdown('</div>', unsafe_allow_html=True)
+    
+    with col_text:
         # Título centrado y descripción de la app
         st.markdown("<h1 class='center-title'>Jazzam - Asistente Musical Virtual</h1>", unsafe_allow_html=True)
         st.write(
@@ -98,11 +106,3 @@ else:
                 st.markdown("### Recomendación de Jazzam")
                 st.write(recommendation)
                 st.success("¡Gracias por utilizar Jazzam! Si querés otra recomendación, modificá tus elecciones y presioná el botón nuevamente.")
-
-    with col2:
-        # Contenedor para centrar la imagen verticalmente
-        st.markdown('<div class="vertical-center">', unsafe_allow_html=True)
-        image = Image.open("coltrane.jpg")
-        # Mostrar la imagen en su resolución original; Streamlit se encargará de la reducción
-        st.image(image, caption="John Coltrane", use_container_width=True)
-        st.markdown('</div>', unsafe_allow_html=True)
