@@ -103,6 +103,6 @@ else:
         # Contenedor para centrar la imagen verticalmente
         st.markdown('<div class="vertical-center">', unsafe_allow_html=True)
         image = Image.open("coltrane.jpg")
-        # Mostrar la imagen en su resolución original y forzar un ancho de 336px (doble del tamaño anterior)
-        st.image(image, caption="John Coltrane", width=336)
+        # Mostrar la imagen en su resolución original; Streamlit se encargará de la reducción
+        st.image(image, caption="John Coltrane", use_container_width=True)
         st.markdown('</div>', unsafe_allow_html=True)
