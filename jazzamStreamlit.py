@@ -16,7 +16,7 @@ else:
     # Configuración de la API
     genai.api_key = API_KEY
     genai.configure(api_key=API_KEY)
-    model = genai.GenerativeModel("text-bison")
+    model = genai.GenerativeModel("chat-bison-001")
 
     # Inyectar estilos CSS para centrar el título y la imagen verticalmente
     st.markdown(
@@ -106,8 +106,3 @@ else:
                 st.markdown("### Recomendación de Jazzam")
                 st.write(recommendation)
                 st.success("¡Gracias por utilizar Jazzam! Si querés otra recomendación, modificá tus elecciones y presioná el botón nuevamente.")
-
-
-# Listar los modelos disponibles
-    models = genai.list_models()
-    st.write("Available models:", models)
