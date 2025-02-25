@@ -16,8 +16,8 @@ else:
     # Configuración de la API
     genai.api_key = API_KEY
     genai.configure(api_key=API_KEY)
-    model = genai.GenerativeModel("gemini-pro")
-    
+    model = genai.GenerativeModel("text-bison-001")
+
     # Inyectar estilos CSS para centrar el título y la imagen verticalmente
     st.markdown(
         """
@@ -33,10 +33,10 @@ else:
         }
         </style>
         """, unsafe_allow_html=True)
-    
+
     # Crear dos columnas: 1/4 a la izquierda (imagen) y 3/4 a la derecha (texto y formulario)
     col_img, col_text = st.columns([1, 3])
-    
+
     with col_img:
         # Contenedor para centrar la imagen verticalmente
         st.markdown('<div class="vertical-center">', unsafe_allow_html=True)
