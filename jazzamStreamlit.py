@@ -106,3 +106,8 @@ else:
                 st.markdown("### Recomendación de Jazzam")
                 st.write(recommendation)
                 st.success("¡Gracias por utilizar Jazzam! Si querés otra recomendación, modificá tus elecciones y presioná el botón nuevamente.")
+
+
+# Listar los modelos disponibles
+    models = genai.list_models()
+    st.write("Available models:", models)
