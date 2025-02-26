@@ -86,7 +86,7 @@ else:
             # Combinar el contexto y el prompt del usuario
             full_prompt = f"{context_prompt}\n\nUsuario: {user_prompt}\n\nJazzam:"
             # Llamar a la API de Gemini para generar la respuesta
-            response = genai.generate_text(
+            response = genai.generate(
                 model="chat-bison-001",
                 prompt=full_prompt,
             )
