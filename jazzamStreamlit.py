@@ -16,9 +16,8 @@ else:
     # Configuración de la API
     genai.api_key = API_KEY
     genai.configure(api_key=API_KEY)
-    model = genai.Model("chat-bison-001")
+    model = "text-bison-001"
 
-    # Inyectar estilos CSS para centrar el título y la imagen verticalmente
     st.markdown(
         """
         <style>
