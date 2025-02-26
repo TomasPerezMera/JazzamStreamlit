@@ -16,7 +16,7 @@ else:
     # Configuración de la API
     genai.api_key = API_KEY
     genai.configure(api_key=API_KEY)
-    model = genai.GenerativeModel('chat-bison')
+    model = genai.GenerativeModel("chat-bison-001")
 
     st.markdown(
         """
