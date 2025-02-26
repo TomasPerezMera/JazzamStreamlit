@@ -16,7 +16,7 @@ else:
     # Configuración de la API
     genai.api_key = API_KEY
     genai.configure(api_key=API_KEY)
-    model = genai.GenerativeModel("chat-bison-001")
+    #  model = genai.GenerativeModel("chat-bison-001")
 
     st.markdown(
         """
@@ -87,8 +87,12 @@ else:
             # Combinar el contexto y el prompt del usuario
             full_prompt = f"{context_prompt}\n\nUsuario: {user_prompt}\n\nJazzam:"
             # Llamar a la API de Gemini para generar la respuesta
-            response = model.generate_content(full_prompt)
-            return response.text.strip()
+            response = genai.ChatCompletion.create(
+                model="chat-bison-001",
+                messages=[{"role": "user", "content": full_prompt}],
+            )
+            return response.candidates[0].content.strip()
+            # return response.text.strip()
 
         # Procesar el formulario y mostrar la recomendación
         if submit_button:
