@@ -72,7 +72,7 @@ with col_text:
 
                 # Create chat completion with new API
                 response = client.chat.completions.create(
-                    model="gpt-3.5-turbo",
+                    model="gpt-4o-mini",
                     messages=[
                         {"role": "system", "content": context_prompt},
                         {"role": "user", "content": user_prompt}
