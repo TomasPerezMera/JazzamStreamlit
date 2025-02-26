@@ -88,8 +88,8 @@ else:
             full_prompt = f"{context_prompt}\n\nUsuario: {user_prompt}\n\nJazzam:"
             # Llamar a la API de Gemini para generar la respuesta
             response = genai.ChatCompletion.create(
-                model="chat-bison-001",
-                messages=[{"role": "user", "content": full_prompt}],
+            model="chat-bison-001",
+            messages=[{"role": "user", "content": full_prompt}],
             )
             return response.candidates[0].content.strip()
             # return response.text.strip()
