@@ -1,21 +1,20 @@
 # app.py
 import os
 import streamlit as st
-import google.generativeai as genai
+import openai
 from dotenv import load_dotenv
 from PIL import Image
 
-# Cargar variables de entorno desde un archivo .env
+# Load environment variables
 load_dotenv()
 
-# Obtener el API key desde la variable de entorno
-API_KEY = os.getenv("API_KEY")
+# Get API key from environment variable
+API_KEY = os.getenv("OPENAI_API_KEY")
 if not API_KEY:
-    st.error("No se encontró el API key. Por favor, define la variable API_KEY en tu archivo .env.")
+    st.error("No se encontró el API key. Por favor, define la variable OPENAI_API_KEY en tu archivo .env.")
 else:
-    # Configuración de la API
-    genai.api_key = API_KEY
-    genai.configure(api_key=API_KEY)
+    # Configure OpenAI API
+    openai.api_key = API_KEY
 
     st.markdown(
         """
@@ -32,19 +31,16 @@ else:
         </style>
         """, unsafe_allow_html=True)
 
-    # Crear dos columnas: 1/4 a la izquierda (imagen) y 3/4 a la derecha (texto y formulario)
+    # Create two columns: 1/4 left (image) and 3/4 right (text and form)
     col_img, col_text = st.columns([1, 3])
 
     with col_img:
-        # Contenedor para centrar la imagen verticalmente
         st.markdown('<div class="vertical-center">', unsafe_allow_html=True)
-        image = Image.open("coltrane.jpg")  # New image: 1138x924 px
-        # Mostrar la imagen en su resolución original; Streamlit se encargará de la reducción
+        image = Image.open("coltrane.jpg")
         st.image(image, caption="John Coltrane", use_container_width=True)
         st.markdown('</div>', unsafe_allow_html=True)
 
     with col_text:
-        # Título centrado y descripción de la app
         st.markdown("<h1 class='center-title'>Jazzam - Asistente Musical Virtual</h1>", unsafe_allow_html=True)
         st.write(
             """
@@ -53,15 +49,12 @@ else:
             """
         )
 
-        # Formulario para solicitar inputs al usuario
         with st.form(key="recommendation_form"):
             artist1 = st.text_input("¿Cuál es tu artista o álbum musical favorito?")
             artist2 = st.text_input("¿Tenés otro artista o álbum favorito? (opcional)")
             submit_button = st.form_submit_button(label="Obtener recomendación")
 
-        # Función para generar la recomendación
         def generar_recomendacion(artists: list) -> str:
-            # Construir el prompt del usuario
             user_prompt = (
                 f"Mis artistas o álbumes favoritos son {', '.join(artists)}. "
                 "Recomendame el álbum de John Coltrane que más se asemeje a su estilo musical. "
@@ -69,7 +62,6 @@ else:
                 "Asegurate de que tu respuesta mantenga un tono cálido, amable y servicial."
             )
 
-            # Definir el contexto e instrucciones para Jazzam
             context_prompt = (
                 "Sos un asistente musical virtual llamado 'Jazzam'. Tu conocimiento se basa en la discografía y biografía de John Coltrane. "
                 "Cuando recibas los artistas o álbumes favoritos del usuario, elegí el álbum de John Coltrane que más se asemeje al estilo de esos artistas o álbumes, "
@@ -83,16 +75,22 @@ else:
                 "Tu acento o dialecto de respuestas será siempre castellano rioplatense, siendo vos oriundo de Buenos Aires, Argentina. "
             )
 
-            # Combinar el contexto y el prompt del usuario
+            # Combine context and user prompt
             full_prompt = f"{context_prompt}\n\nUsuario: {user_prompt}\n\nJazzam:"
-            # Llamar a la API de Gemini para generar la respuesta
-            response = genai.generate(
-                model="chat-bison-001",
-                prompt=full_prompt,
-            )
-            return response.generations[0].text.strip()
 
-        # Procesar el formulario y mostrar la recomendación
+            # Call OpenAI API
+            response = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo",
+                messages=[
+                    {"role": "system", "content": context_prompt},
+                    {"role": "user", "content": user_prompt}
+                ],
+                temperature=0.7,
+                max_tokens=500
+            )
+
+            return response.choices[0].message.content.strip()
+
         if submit_button:
             if not artist1.strip():
                 st.error("Necesito al menos un artista o álbum para recomendarte algo. Por favor, ingresá al menos uno.")

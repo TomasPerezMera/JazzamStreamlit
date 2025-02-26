@@ -1,4 +1,5 @@
-google-generativeai>=0.4.0
+openai
 streamlit
 python-dotenv
+Pillow
 pandas
