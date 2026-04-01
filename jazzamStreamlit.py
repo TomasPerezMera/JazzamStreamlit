@@ -123,19 +123,6 @@ def generar_recomendacion(artists: list) -> str:
 if "historial" not in st.session_state:
     st.session_state.historial = []
 
-if st.session_state.get("resultado"):
-    resultado_html = st.session_state.resultado.replace("\n", "<br>")
-    st.markdown(f"""
-    <div class="result-card fade-in">
-        <h3>Recomendación:</h3>
-        <p>{resultado_html}</p>
-    </div>
-    """, unsafe_allow_html=True)
-    st.write(st.session_state.resultado)
-else:
-    if "resultado" not in st.session_state:
-        st.warning("Ingresá al menos un artista o álbum.")
-
 # Función Callback para gestionar input y limpiar tras Submit
 def procesar_input():
     artists = artists_list
@@ -186,6 +173,19 @@ st.button("Recomendar", disabled=not is_valid, on_click=procesar_input)
 
 st.markdown('</div>', unsafe_allow_html=True)
 
+# Imprimimos Resultado con formato
+if st.session_state.get("resultado"):
+    resultado_html = st.session_state.resultado.replace("\n", "<br>")
+    st.markdown(f"""
+    <div class="result-card fade-in">
+        <h3>Recomendación:</h3>
+        <p>{resultado_html}</p>
+    </div>
+    """, unsafe_allow_html=True)
+else:
+    if "resultado" not in st.session_state:
+        st.warning("Ingresá al menos un artista o álbum.")
+
 # Sidebar - Historial e Imagen
 with st.sidebar:
     try:
@@ -198,7 +198,7 @@ with st.sidebar:
     if st.session_state.historial:
         for item in st.session_state.historial[:5]:
             st.markdown(f"**Input:** {', '.join(item['input'])}")
-            preview = item['output'][:100].rsplit(' ', 1)[0]
+            preview = item['output'][:150].rsplit(' ', 1)[0]
             st.markdown(f"_{preview}..._")
             st.markdown("---")
     else:
