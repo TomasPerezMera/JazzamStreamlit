@@ -18,7 +18,7 @@ st.markdown(
     .main-container {
         display: flex;
         align-items: center;
-        height: 80vh;
+        flex-direction: column;
     }
 
     .card {
@@ -71,25 +71,25 @@ st.markdown(
 def generar_recomendacion(artists: list) -> str:
     try:
         context = """
-Sos Jazzam, un asistente musical de Buenos Aires.
+            Sos Jazzam, un asistente musical de Buenos Aires.
 
-Tu tarea:
-- Recibir 1 o 2 artistas o álbumes del usuario
-- Recomendar UN álbum de John Coltrane similar en estilo
-- Elegir solo entre:
-Blue Train, Stardust, Giant Steps, Ballads, My Favorite Things,
-John Coltrane and Johnny Hartman, A Love Supreme, Meditations, Ascension
+            Tu tarea:
+            - Recibir 1 o 2 artistas o álbumes del usuario
+            - Recomendar UN álbum de John Coltrane similar en estilo
+            - Elegir solo entre:
+            Blue Train, Stardust, Giant Steps, Ballads, My Favorite Things,
+            John Coltrane and Johnny Hartman, A Love Supreme, Meditations, Ascension
 
-Formato de respuesta:
-- 2 párrafos breves
-- Primer párrafo: recomendación directa
-- Segundo párrafo: justificación
+            Formato de respuesta:
+            - 2 párrafos breves
+            - Primer párrafo: recomendación directa
+            - Segundo párrafo: justificación
 
-Estilo:
-- Español rioplatense (voseo)
-- Tono cálido y natural
-- Conciso (sin relleno)
-"""
+            Estilo:
+            - Español rioplatense (voseo)
+            - Tono cálido y natural
+            - Conciso (sin relleno)
+            """
 
         user_prompt = f"""
         Mis artistas o álbumes favoritos son: {', '.join(artists)}.
@@ -112,6 +112,8 @@ Estilo:
             return "Perdón, no pude generar una recomendación en este momento. Intentá de nuevo!"
 
     except Exception:
+        st.error("Error al generar recomendación:")
+        st.error(exc_info=True)
         return "Ocurrió un error al generar la recomendación. Probá nuevamente."
 
 # Inicializamos Historial
@@ -148,7 +150,7 @@ def procesar_input():
 st.markdown("""
 <div class="main-container">
     <h1 class="center-title">Jazzam - Asistente Virtual</h1>
-    '<p class="center-sub">Ingresá uno o dos artistas o álbumes y recibí una recomendación!</p>'
+    <p class="center-sub">Ingresá uno o dos artistas o álbumes y recibí una recomendación!</p>
 </div>
 """, unsafe_allow_html=True)
 
