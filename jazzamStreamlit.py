@@ -127,10 +127,14 @@ if st.session_state.get("resultado"):
     resultado_html = st.session_state.resultado.replace("\n", "<br>")
     st.markdown(f"""
     <div class="result-card fade-in">
-        <h3>Recomendación</h3>
+        <h3>Recomendación:</h3>
         <p>{resultado_html}</p>
     </div>
     """, unsafe_allow_html=True)
+    st.write(st.session_state.resultado)
+else:
+    if "resultado" not in st.session_state:
+        st.warning("Ingresá al menos un artista o álbum.")
 
 # Función Callback para gestionar input y limpiar tras Submit
 def procesar_input():
@@ -179,16 +183,6 @@ if user_input and not is_valid:
     st.warning("Máximo dos artistas/álbumes separados por coma.")
 
 st.button("Recomendar", disabled=not is_valid, on_click=procesar_input)
-
-
-if "resultado" in st.session_state:
-    st.markdown('<div class="result-card fade-in">', unsafe_allow_html=True)
-    st.markdown("### Recomendación")
-    st.write(st.session_state.resultado)
-    st.markdown('</div>', unsafe_allow_html=True)
-else:
-    if "resultado" not in st.session_state and user_input:
-        st.warning("Ingresá al menos un artista o álbum.")
 
 st.markdown('</div>', unsafe_allow_html=True)
 
