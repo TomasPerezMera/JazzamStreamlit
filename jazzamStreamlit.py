@@ -6,7 +6,10 @@ from PIL import Image
 genai.configure(api_key=st.secrets["gemini"]["api_key"])
 
 # Initializar modelo
-model = genai.GenerativeModel("gemini-1.5-flash")
+model = genai.GenerativeModel("gemini-1.5-flash-latest")
+
+for m in genai.list_models():
+    print(m.name)
 
 # App UI
 st.set_page_config(page_title="Jazzam - Asistente Virtual", page_icon="🎷")
@@ -111,9 +114,8 @@ def generar_recomendacion(artists: list) -> str:
         else:
             return "Perdón, no pude generar una recomendación en este momento. Intentá de nuevo!"
 
-    except Exception:
-        st.error("Error al generar recomendación:")
-        st.error(exc_info=True)
+    except Exception as e:
+        st.error(f"Error al generar recomendación: {e}")
         return "Ocurrió un error al generar la recomendación. Probá nuevamente."
 
 # Inicializamos Historial
