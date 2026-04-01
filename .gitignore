@@ -51,10 +51,12 @@ target/
 # Jupyter Notebook
 .ipynb_checkpoints
 
-# Environments
+# Environment Secrets
 .env
 .env.local
 env/
+.streamlit
+secrets.toml
 
 # Spyder project settings
 .spyderproject
