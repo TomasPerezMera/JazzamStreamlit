@@ -122,9 +122,27 @@ if "historial" not in st.session_state:
 if "resultado" not in st.session_state:
     st.session_state.resultado = None
 
-# Función Callbar para limpiar input
-def limpiar_input():
-    st.session_state.input_artistas = ""
+# Función Callback para gestionar input y limpiar tras Submit
+def procesar_input():
+    artists = artists_list
+    user_input = st.session_state.input_artistas
+    artists = [a.strip() for a in user_input.split(",") if a.strip()]
+
+    if len(artists) == 0 or len(artists) > 2:
+        st.warning("Por favor ingresá uno o dos artistas/álbumes.")
+    else:
+        with st.spinner("Generando recomendación..."):
+            resultado = generar_recomendacion(artists)
+            st.session_state.resultado = resultado
+
+            nuevo_item = {
+                "input": artists,
+                "output": resultado
+            }
+
+            if not st.session_state.historial or st.session_state.historial[0] != nuevo_item:
+                st.session_state.historial.insert(0, nuevo_item)
+            st.session_state.input_artistas = ""
 
 # Cuerpo de la App
 st.markdown("""
@@ -150,28 +168,7 @@ is_valid = 0 < len(artists_list) <= 2
 if user_input and not is_valid:
     st.warning("Máximo dos artistas/álbumes separados por coma.")
 
-submit = st.button("Recomendar", disabled=not is_valid)
-if submit:
-    artists = artists_list
-
-    if len(artists) == 0 or len(artists) > 2:
-        st.warning("Por favor ingresá uno o dos artistas/álbumes.")
-    else:
-        with st.spinner("Generando recomendación..."):
-            resultado = generar_recomendacion(artists)
-            st.session_state.resultado = resultado
-            nuevo_item = {
-                "input": artists,
-                "output": resultado
-            }
-            if not st.session_state.historial or st.session_state.historial[0] != nuevo_item:
-                st.session_state.historial.insert(0, nuevo_item)
-            st.session_state.limpiar_input = True
-
-# Limpiar input después de generar recomendación
-if st.session_state.get("limpiar_input"):
-    st.session_state.input_artistas = ""
-    st.session_state.limpiar_input = False
+st.button("Recomendar", disabled=not is_valid, on_click=procesar_input)
 
 
 if "resultado" in st.session_state:
@@ -189,7 +186,7 @@ st.markdown('</div>', unsafe_allow_html=True)
 with st.sidebar:
     try:
         image = Image.open("coltrane.jpg")
-        st.image(image, caption="John Coltrane", use_container_width=True)
+        st.image(image, caption="John Coltrane", width='stretch')
     except Exception:
         st.write("Imagen no disponible")
     st.markdown("## Historial")
