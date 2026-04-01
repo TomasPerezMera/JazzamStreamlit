@@ -1,6 +1,6 @@
 # Jazzam - Recomendaciones de Música con IA
 
-### **Jazzam** es una aplicación web ligera que genera recomendaciones personalizadas de álbumes de jazz mediante inteligencia artificial. Fue diseñada para su integración y uso en el E-Commerce "El Rincón de Coltrane" (https://github.com/TomasPerezMera/ColtraNext).
+#### **Jazzam** es una aplicación web ligera que genera recomendaciones personalizadas de álbumes de jazz mediante inteligencia artificial. Fue diseñada para su integración y uso en el E-Commerce "El Rincón de Coltrane" (https://github.com/TomasPerezMera/ColtraNext).
 
 #### La aplicación toma uno o dos artistas o álbumes proporcionados por el usuario y sugiere un álbum de John Coltrane con un estilo similar, ofreciendo una explicación concisa y contextual.
 
@@ -28,6 +28,8 @@ La aplicación utiliza un prompt cuidadosamente diseñado para:
 Esto demuestra el uso práctico de técnicas de ingeniería de prompts para controlar el comportamiento de los modelos de lenguaje grandes (LLM) en una aplicación real.
 
 ## Preview
+
+![UI Preview](/JazzamPreview.jpg)
 
 ## Setup
 
