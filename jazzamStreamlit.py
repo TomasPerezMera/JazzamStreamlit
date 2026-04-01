@@ -24,7 +24,7 @@ st.markdown(
     .card {
         background-color: #111;
         padding: 2rem;
-        border-radius: 20px;
+        border-radius: 2rem;
         box-shadow: 0 4px 20px rgba(0,0,0,0.4);
     }
 
@@ -122,15 +122,17 @@ if "historial" not in st.session_state:
 if "resultado" not in st.session_state:
     st.session_state.resultado = None
 
+# Función Callbar para limpiar input
+def limpiar_input():
+    st.session_state.input_artistas = ""
 
 # Cuerpo de la App
-st.markdown('<div class="main-container card">', unsafe_allow_html=True)
-
-st.markdown('<h1 class="center-title">🎷 Jazzam</h1>', unsafe_allow_html=True)
-st.markdown(
-    '<p class="center-sub">Ingresá uno o dos artistas o álbumes y recibí una recomendación de Coltrane.</p>',
-    unsafe_allow_html=True
-)
+st.markdown("""
+<div class="main-container">
+    <h1 class="center-title">Jazzam - Asistente Virtual</h1>
+    '<p class="center-sub">Ingresá uno o dos artistas o álbumes y recibí una recomendación!</p>'
+</div>
+""", unsafe_allow_html=True)
 
 user_input = st.text_input(
 "Artistas o álbumes  (separados por coma)",
@@ -148,23 +150,28 @@ is_valid = 0 < len(artists_list) <= 2
 if user_input and not is_valid:
     st.warning("Máximo dos artistas/álbumes separados por coma.")
 
-if st.button("Recomendar", disabled=not is_valid):
-    if user_input:
-        artists = artists_list
+submit = st.button("Recomendar", disabled=not is_valid)
+if submit:
+    artists = artists_list
 
-        if len(artists) == 0 or len(artists) > 2:
-            st.warning("Por favor ingresá uno o dos artistas/álbumes.")
-        else:
-            with st.spinner("Generando recomendación..."):
-                resultado = generar_recomendacion(artists)
-                st.session_state.resultado = resultado
-                nuevo_item = {
-                    "input": artists,
-                    "output": resultado
-                }
-                if not st.session_state.historial or st.session_state.historial[0] != nuevo_item:
-                    st.session_state.historial.insert(0, nuevo_item)
-                st.session_state.input_artistas = ""
+    if len(artists) == 0 or len(artists) > 2:
+        st.warning("Por favor ingresá uno o dos artistas/álbumes.")
+    else:
+        with st.spinner("Generando recomendación..."):
+            resultado = generar_recomendacion(artists)
+            st.session_state.resultado = resultado
+            nuevo_item = {
+                "input": artists,
+                "output": resultado
+            }
+            if not st.session_state.historial or st.session_state.historial[0] != nuevo_item:
+                st.session_state.historial.insert(0, nuevo_item)
+            st.session_state.limpiar_input = True
+
+# Limpiar input después de generar recomendación
+if st.session_state.get("limpiar_input"):
+    st.session_state.input_artistas = ""
+    st.session_state.limpiar_input = False
 
 
 if "resultado" in st.session_state:
