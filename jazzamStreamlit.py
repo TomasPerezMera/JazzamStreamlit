@@ -123,8 +123,14 @@ def generar_recomendacion(artists: list) -> str:
 if "historial" not in st.session_state:
     st.session_state.historial = []
 
-if "resultado" not in st.session_state:
-    st.session_state.resultado = None
+if st.session_state.get("resultado"):
+    resultado_html = st.session_state.resultado.replace("\n", "<br>")
+    st.markdown(f"""
+    <div class="result-card fade-in">
+        <h3>Recomendación</h3>
+        <p>{resultado_html}</p>
+    </div>
+    """, unsafe_allow_html=True)
 
 # Función Callback para gestionar input y limpiar tras Submit
 def procesar_input():
