@@ -6,7 +6,7 @@ from PIL import Image
 genai.configure(api_key=st.secrets["gemini"]["api_key"])
 
 # Initializar modelo
-model = genai.GenerativeModel("gemini-1.5-flash-latest")
+model = genai.GenerativeModel("gemini-2.5-flash-lite")
 
 for m in genai.list_models():
     print(m.name)
