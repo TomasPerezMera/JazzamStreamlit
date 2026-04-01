@@ -123,19 +123,11 @@ if "resultado" not in st.session_state:
     st.session_state.resultado = None
 
 # Layout en Columnas
-col_img, col_text = st.columns([1, 2])
-
-with col_img:
-    try:
-        image = Image.open("coltrane.jpg")
-        st.image(image, caption="John Coltrane", use_container_width=True)
-    except Exception:
-        st.write("Imagen no disponible")
+col_text = st.columns(1)
 
 # Card derecha (centrada)
 with col_text:
-    st.markdown('<div class="main-container">', unsafe_allow_html=True)
-    st.markdown('<div class="card">', unsafe_allow_html=True)
+    st.markdown('<div class="main-container card">', unsafe_allow_html=True)
 
     st.markdown('<h1 class="center-title">🎷 Jazzam</h1>', unsafe_allow_html=True)
     st.markdown(
@@ -188,9 +180,14 @@ with col_text:
             st.warning("Ingresá al menos un artista o álbum.")
 
     st.markdown('</div>', unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
 
+# Sidebar - Historial e Imagen
 with st.sidebar:
+    try:
+        image = Image.open("coltrane.jpg")
+        st.image(image, caption="John Coltrane", use_container_width=True)
+    except Exception:
+        st.write("Imagen no disponible")
     st.markdown("## Historial")
 
     if st.session_state.historial:
