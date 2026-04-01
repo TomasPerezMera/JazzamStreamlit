@@ -122,64 +122,61 @@ if "historial" not in st.session_state:
 if "resultado" not in st.session_state:
     st.session_state.resultado = None
 
-# Layout en Columnas
-col_text = st.columns(1)
 
-# Card derecha (centrada)
-with col_text:
-    st.markdown('<div class="main-container card">', unsafe_allow_html=True)
+# Cuerpo de la App
+st.markdown('<div class="main-container card">', unsafe_allow_html=True)
 
-    st.markdown('<h1 class="center-title">🎷 Jazzam</h1>', unsafe_allow_html=True)
-    st.markdown(
-        '<p class="center-sub">Ingresá uno o dos artistas o álbumes y recibí una recomendación de Coltrane.</p>',
-        unsafe_allow_html=True
-    )
+st.markdown('<h1 class="center-title">🎷 Jazzam</h1>', unsafe_allow_html=True)
+st.markdown(
+    '<p class="center-sub">Ingresá uno o dos artistas o álbumes y recibí una recomendación de Coltrane.</p>',
+    unsafe_allow_html=True
+)
 
-    user_input = st.text_input(
-    "Artistas o álbumes  (separados por coma)",
-    placeholder="Ej: Miles Davis, Bill Evans",
-    key="input_artistas"
-    )
+user_input = st.text_input(
+"Artistas o álbumes  (separados por coma)",
+placeholder="Ej: Miles Davis, Bill Evans",
+key="input_artistas"
+)
 
-    if "historial" not in st.session_state:
-        st.session_state.historial = []
+if "historial" not in st.session_state:
+    st.session_state.historial = []
 
 
-    artists_list = [a.strip() for a in user_input.split(",") if a.strip()]
-    is_valid = 0 < len(artists_list) <= 2
+artists_list = [a.strip() for a in user_input.split(",") if a.strip()]
+is_valid = 0 < len(artists_list) <= 2
 
-    if user_input and not is_valid:
-        st.warning("Máximo dos artistas/álbumes separados por coma.")
+if user_input and not is_valid:
+    st.warning("Máximo dos artistas/álbumes separados por coma.")
 
-    if st.button("Recomendar", disabled=not is_valid):
-        if user_input:
-            artists = artists_list
+if st.button("Recomendar", disabled=not is_valid):
+    if user_input:
+        artists = artists_list
 
-            if len(artists) == 0 or len(artists) > 2:
-                st.warning("Por favor ingresá uno o dos artistas/álbumes.")
-            else:
-                with st.spinner("Generando recomendación..."):
-                    resultado = generar_recomendacion(artists)
-                    st.session_state.resultado = resultado
-                    nuevo_item = {
-                        "input": artists,
-                        "output": resultado
-                    }
-                    if not st.session_state.historial or st.session_state.historial[0] != nuevo_item:
-                        st.session_state.historial.insert(0, nuevo_item)
-                    st.session_state.input_artistas = ""
+        if len(artists) == 0 or len(artists) > 2:
+            st.warning("Por favor ingresá uno o dos artistas/álbumes.")
+        else:
+            with st.spinner("Generando recomendación..."):
+                resultado = generar_recomendacion(artists)
+                st.session_state.resultado = resultado
+                nuevo_item = {
+                    "input": artists,
+                    "output": resultado
+                }
+                if not st.session_state.historial or st.session_state.historial[0] != nuevo_item:
+                    st.session_state.historial.insert(0, nuevo_item)
+                st.session_state.input_artistas = ""
 
 
-    if "resultado" in st.session_state:
-        st.markdown('<div class="result-card fade-in">', unsafe_allow_html=True)
-        st.markdown("### Recomendación")
-        st.write(st.session_state.resultado)
-        st.markdown('</div>', unsafe_allow_html=True)
-    else:
-        if "resultado" not in st.session_state and user_input:
-            st.warning("Ingresá al menos un artista o álbum.")
-
+if "resultado" in st.session_state:
+    st.markdown('<div class="result-card fade-in">', unsafe_allow_html=True)
+    st.markdown("### Recomendación")
+    st.write(st.session_state.resultado)
     st.markdown('</div>', unsafe_allow_html=True)
+else:
+    if "resultado" not in st.session_state and user_input:
+        st.warning("Ingresá al menos un artista o álbum.")
+
+st.markdown('</div>', unsafe_allow_html=True)
 
 # Sidebar - Historial e Imagen
 with st.sidebar:
